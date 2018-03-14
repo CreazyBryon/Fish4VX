@@ -2,8 +2,7 @@
 /*
  * vx
  */
-var parseString = require('xml2js').parseString;
-var util = require('util');
+var parseString = require('xml2js').parseString; 
 
 var vxCache={recv:[],xmls:[],logs:[],resp:[]};
 
@@ -46,14 +45,16 @@ parseString(xml, {cdata:true}, function (err, result) {
 		res.send("success");
 	}else{
 		vxCache.xmls.push(result);
-		var sender=result.xml.FromUserName;
-		var meName=result.xml.ToUserName;
-		var msgType=result.xml.MsgType;
-		var content=result.xml.Content;
-	
-		var repl=util.format('<xml> <ToUserName>< ![CDATA[%s] ]></ToUserName> <FromUserName>< ![CDATA[%s] ]></FromUserName> <CreateTime>%d</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[%s] ]></Content> </xml>',sender,meName,Date.now(),'fish:'+content);
+		var sender=result.xml.fromusername;
+		var meName=result.xml.tousername;
+		var msgType=result.xml.msgtype;
+		var content=result.xml.content;
+		var msgid=result.xml.msgid;	
+		
+		var repl='<xml> <ToUserName>< ![CDATA['+sender+'] ]></ToUserName> <FromUserName>< ![CDATA['+meName+'] ]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[fish:'+content+'] ]></Content> </xml>';
 		vxCache.resp.push({msg:repl});
 		res.send(repl);
+		
 	}
 });
 	
