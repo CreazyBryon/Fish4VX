@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , vx = require('./routes/vx')  
   , http = require('http')
+  , xmlparser = require('express-xml-bodyparser')
   , path = require('path');
 
 var app = express();
@@ -31,7 +32,7 @@ app.configure('development', function(){
 app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/vx', vx.index);
-app.post('/vx', vx.msg);
+app.post('/vx',xmlparser({trim: false, explicitArray: false}), vx.msg);
 app.get('/vx/debug', vx.debug);
 
 http.createServer(app).listen(app.get('port'), function(){

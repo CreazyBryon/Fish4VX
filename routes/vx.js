@@ -5,7 +5,7 @@
 var parseString = require('xml2js').parseString;
 var util = require('util');
 
-var vxCache={posted:[],xmls:[]};
+var vxCache={posted:[],xmls:[],logs:[]};
 
 exports.debug = function(req, res){
 	 
@@ -32,7 +32,9 @@ parseString(xml, function (err, result) {
 
 exports.msg = function(req, res){
 	
-	vxCache.posted.push(req.body);
+	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
+	vxCache.xmls.push(req.body);
+	
 	var xml = req.body;
 parseString(xml, {cdata:true}, function (err, result) {
 	
