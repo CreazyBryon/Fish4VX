@@ -5,7 +5,7 @@
 var parseString = require('xml2js').parseString;
 var util = require('util');
 
-var vxCache={posted:[],xmls:[],logs:[]};
+var vxCache={recv:[],xmls:[],logs:[],resp:[]};
 
 exports.debug = function(req, res){
 	 
@@ -14,6 +14,8 @@ exports.debug = function(req, res){
 
 
 exports.index = function(req, res){
+	vxCache.recv.push({index:req.query});
+	
 	var signature=req.query['signature'];
 	var timestamp=req.query['timestamp'];	
 	var nonce=req.query['nonce'];	
@@ -27,13 +29,15 @@ parseString(xml, function (err, result) {
     res.send(result);
 });
 	*/
+	
+	vxCache.resp.push({index:echczostr});
   res.send(echczostr);
 };
 
 exports.msg = function(req, res){
 	
 	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
-	vxCache.xmls.push(req.body);
+	vxCache.recv.push({msg:req.body});
 	
 	var xml = req.body;
 parseString(xml, {cdata:true}, function (err, result) {
@@ -42,13 +46,13 @@ parseString(xml, {cdata:true}, function (err, result) {
 		res.send("success");
 	}else{
 		vxCache.xmls.push(result);
-		var sender=result.xml.FromUserName[0];
-		var meName=result.xml.ToUserName[0];
-		var msgType=result.xml.MsgType[0];
-		var content=result.xml.Content[0];
+		var sender=result.xml.FromUserName;
+		var meName=result.xml.ToUserName;
+		var msgType=result.xml.MsgType;
+		var content=result.xml.Content;
 	
-		var repl=util.format('<xml> <ToUserName>< ![CDATA[%s] ]></ToUserName> <FromUserName>< ![CDATA[%s] ]></FromUserName> <CreateTime>%d</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[%s] ]></Content> </xml>',sender,meName,Date.now(),content);
-		
+		var repl=util.format('<xml> <ToUserName>< ![CDATA[%s] ]></ToUserName> <FromUserName>< ![CDATA[%s] ]></FromUserName> <CreateTime>%d</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[%s] ]></Content> </xml>',sender,meName,Date.now(),'fish:'+content);
+		vxCache.resp.push({msg:repl});
 		res.send(repl);
 	}
 });
