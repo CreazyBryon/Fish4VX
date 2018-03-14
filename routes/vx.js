@@ -1,10 +1,8 @@
 
 /*
  * vx
- */
-var parseString = require('xml2js').parseString; 
-
-var vxCache={recv:[],xmls:[],logs:[],resp:[]};
+ */ 
+var vxCache={recv:[],logs:[],resp:[]};
 
 exports.debug = function(req, res){
 	 
@@ -38,13 +36,11 @@ exports.msg = function(req, res){
 	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
 	vxCache.recv.push({msg:req.body});
 	
-	var xml = req.body;
-parseString(xml, {cdata:true}, function (err, result) {
-	
+	var result = req.body;
+ 
 	if(!result){
 		res.send("success");
-	}else{
-		vxCache.xmls.push(result);
+	}else{ 
 		var sender=result.xml.fromusername;
 		var meName=result.xml.tousername;
 		var msgType=result.xml.msgtype;
@@ -54,8 +50,7 @@ parseString(xml, {cdata:true}, function (err, result) {
 		var repl='<xml> <ToUserName>< ![CDATA['+sender+'] ]></ToUserName> <FromUserName>< ![CDATA['+meName+'] ]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[fish:'+content+'] ]></Content> </xml>';
 		vxCache.resp.push({msg:repl});
 		res.send(repl);
-		
-	}
+		 
 });
 	
 
