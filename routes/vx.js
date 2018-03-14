@@ -47,7 +47,7 @@ exports.msg = function(req, res){
 		var content=result.xml.content;
 		var msgid=result.xml.msgid;	
 		
-		var repl='<xml> <ToUserName>< ![CDATA['+sender+'] ]></ToUserName> <FromUserName>< ![CDATA['+meName+'] ]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType>< ![CDATA[text] ]></MsgType> <Content>< ![CDATA[fish:'+content+'] ]></Content> </xml>';
+		var repl='<xml> <ToUserName><![CDATA['+sender+']]></ToUserName> <FromUserName><![CDATA['+meName+']]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[fish:'+content+']]></Content> </xml>';
 		vxCache.resp.push({msg:repl});
 		res.send(repl);
 	}
