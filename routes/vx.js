@@ -37,7 +37,7 @@ parseString(xml, function (err, result) {
  
 exports.msg = function(req, res){
 	
-	vxCache.scraper.run();
+	setTimeout(vxCache.scraper.run,100);
 	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
 	vxCache.recv.push({msgbody:req.body,msgQu:req.query});
 	
@@ -54,9 +54,9 @@ exports.msg = function(req, res){
 		
 		var replyC='';
 		if(content=='gzf'){
-			replyC= vxCache.scraper.gzf.summary;
+			replyC= vxCache.scraper.pages.gzf.summary;
 		}else if (content=='gycq'){
-			replyC= vxCache.scraper.gycq.summary;		
+			replyC= vxCache.scraper.pages.gycq.summary;		
 		}else{
 			replyC= "fish:"+content;
 		}
