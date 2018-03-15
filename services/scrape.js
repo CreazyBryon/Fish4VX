@@ -62,8 +62,7 @@ exports.getScraper = function(){
 			if(!error){
 				// Next, we'll utilize the cheerio library on the returned html which will essentially give us jQuery functionality
 				var $ = cheerio.load(html);
-				cb($);
-				// Finally, we'll define the variables we're going to capture
+				cb($); 
 			}
 		});			
 	}
