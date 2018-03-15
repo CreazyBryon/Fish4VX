@@ -56,7 +56,7 @@ exports.msg = function(req, res){
 		if(content=='gzf'){
 			replyC= vxCache.scraper.pages.gzf.post.subject+'@'+vxCache.scraper.pages.gzf.post.month+vxCache.scraper.pages.gzf.post.day;
 		}else if (content=='gycq'){
-			replyC= vxCache.scraper.pages.gycq.subject;		
+			replyC= vxCache.scraper.pages.gycq.project.subject;		
 		}else{
 			replyC= "fish:"+content;
 		}
