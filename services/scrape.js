@@ -40,7 +40,8 @@ exports.getScraper = function(){
 				title : $("title").text(), 
 				time:new Date(), 
 				project: {
-					summary:$("#projectContainer .ProjInfo").first().text()
+					summary:$("#projectContainer .ProjInfo").first().text(),
+					subject:$("#projectContainer caption").first().text()
 				}
 			}; 
 			
