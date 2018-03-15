@@ -4,6 +4,23 @@
  */ 
 var vxCache={recv:[],logs:[],resp:[]};
 
+var handleMsg=function(content){
+	if(content=='gzf'){
+		return vxCache.scraper.gzf.summary;
+	}else if (content=='gycq'){
+		return vxCache.scraper.gycq.summary;		
+	}else{
+		return "fish:"+content;
+	}
+}
+
+
+
+
+exports.init=function(s){
+	vxCache.scraper=s;
+}
+
 exports.debug = function(req, res){
 	 
   res.send(vxCache);
@@ -33,8 +50,9 @@ parseString(xml, function (err, result) {
 
 exports.msg = function(req, res){
 	
+	vxCache.scraper.run();
 	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
-	vxCache.recv.push({msg:req.body});
+	vxCache.recv.push({msgbody:req.body,msgQu:req.query});
 	
 	var result = req.body;
  
@@ -47,7 +65,7 @@ exports.msg = function(req, res){
 		var content=result.xml.content;
 		var msgid=result.xml.msgid;	
 		
-		var repl='<xml> <ToUserName><![CDATA['+sender+']]></ToUserName> <FromUserName><![CDATA['+meName+']]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA[fish:'+content+']]></Content> </xml>';
+		var repl='<xml> <ToUserName><![CDATA['+sender+']]></ToUserName> <FromUserName><![CDATA['+meName+']]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA['+handleMsg(content)+']]></Content> </xml>';
 		vxCache.resp.push({msg:repl});
 		res.send(repl);
 	}

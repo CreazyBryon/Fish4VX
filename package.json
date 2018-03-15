@@ -18,8 +18,9 @@
   "dependencies": {
     "jade": "*",
     "express": "~3.1.0",
-	"xml2js":"*",
-	"express-xml-bodyparser":"*"
+	"express-xml-bodyparser":"*",
+	"cheerio":"*",
+	"request":"*"
   },
   "noAnalyze": true,
   "license": "Apache",
