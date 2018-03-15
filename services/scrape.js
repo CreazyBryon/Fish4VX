@@ -24,7 +24,7 @@ exports.getScraper = function(){
 				title : $("title").text(), 
 				time:new Date(), 
 				post: {
-					suject:$(".publicity .list-right h2").first().text(),
+					subject:$(".publicity .list-right h2").first().text(),
 					month:$(".publicity .list-left2").first().text(),
 					day:$(".publicity .list-left1").first().text(),
 					summary:$(".publicity ul li").first().text()
