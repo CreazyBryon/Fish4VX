@@ -54,7 +54,7 @@ exports.msg = function(req, res){
 		
 		var replyC='';
 		if(content=='gzf'){
-			replyC= vxCache.scraper.pages.gzf.subject+'@'+vxCache.scraper.pages.gzf.month+vxCache.scraper.pages.gzf.day;
+			replyC= vxCache.scraper.pages.gzf.post.subject+'@'+vxCache.scraper.pages.gzf.post.month+vxCache.scraper.pages.gzf.post.day;
 		}else if (content=='gycq'){
 			replyC= vxCache.scraper.pages.gycq.subject;		
 		}else{
