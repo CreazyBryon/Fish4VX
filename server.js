@@ -40,7 +40,7 @@ app.get('/vx/debug', vx.debug);
 
 
 //run
-//scraper.start();
+scraper.start();
 
 app.get('/pages',function(req, res){
 	res.send(scraper.pages);
