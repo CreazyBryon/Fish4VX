@@ -3,6 +3,58 @@
  * vx
  */ 
 var vxCache={recv:[],logs:[],resp:[]};
+
+var handleMsg=function(msg){
+	var msgType=msg.msgtype;
+	
+	if(msgType=='text'){
+		handleText(msg);
+	}else if(msgType=='image'){
+		handleText(msg);
+	}else if(msgType=='voice'){
+		handleText(msg);
+	}else if(msgType=='vedio'){
+		handleText(msg);
+	}else if(msgType=='shortvedio'){
+		handleText(msg);
+	}else if(msgType=='location'){
+		handleText(msg);
+	}else if(msgType=='link'){
+		handleText(msg);
+	}
+}
+
+var handleImage=function(msg){
+	
+}
+
+var handleText=function(msg){
+	var sender=msg.fromusername;
+	var meName=msg.tousername;
+	//var msgType=msg.msgtype;
+	var content=result.xml.content;
+	var msgid=msg.msgid;	
+	
+	var replyC='';
+	if(content=='gzf'){
+		replyC= vxCache.scraper.pages.gzf.post.subject+'@'+vxCache.scraper.pages.gzf.post.month+vxCache.scraper.pages.gzf.post.day+'@'+vxCache.scraper.pages.gzf.post.url;
+	}else if (content=='gycq'){
+		replyC= vxCache.scraper.pages.gycq.project.subject;		
+	}else{
+		replyC= "fish:"+content;
+	}
+	
+	if(!replyC){
+		replyC='empty';
+	}
+	
+	var repl='<xml> <ToUserName><![CDATA['+sender+']]></ToUserName> <FromUserName><![CDATA['+meName+']]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA['+replyC+']]></Content> </xml>';
+	
+	return repl;
+}
+
+
+
  
 exports.init=function(s){
 	vxCache.scraper=s;
@@ -12,7 +64,6 @@ exports.debug = function(req, res){
 	 
   res.send(vxCache);
 };
-
 
 exports.index = function(req, res){
 	vxCache.recv.push({index:req.query});
@@ -37,7 +88,7 @@ parseString(xml, function (err, result) {
  
 exports.msg = function(req, res){
 	
-	setTimeout(vxCache.scraper.run,100);
+	setTimeout(vxCache.scraper.run,1000);
 	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
 	vxCache.recv.push({msgbody:req.body,msgQu:req.query});
 	
@@ -46,22 +97,11 @@ exports.msg = function(req, res){
 	if(!result){
 		res.send("success");
 	}else{ 
-		var sender=result.xml.fromusername;
-		var meName=result.xml.tousername;
-		var msgType=result.xml.msgtype;
-		var content=result.xml.content;
-		var msgid=result.xml.msgid;	
+	
+		var msg=result.xml;
 		
-		var replyC='';
-		if(content=='gzf'){
-			replyC= vxCache.scraper.pages.gzf.post.subject+'@'+vxCache.scraper.pages.gzf.post.month+vxCache.scraper.pages.gzf.post.day;
-		}else if (content=='gycq'){
-			replyC= vxCache.scraper.pages.gycq.project.subject;		
-		}else{
-			replyC= "fish:"+content;
-		}
+		var repl = handleMsg(msg);
 		
-		var repl='<xml> <ToUserName><![CDATA['+sender+']]></ToUserName> <FromUserName><![CDATA['+meName+']]></FromUserName> <CreateTime>'+Date.now()+'</CreateTime> <MsgType><![CDATA[text]]></MsgType> <Content><![CDATA['+replyC+']]></Content> </xml>';
 		vxCache.resp.push({msg:repl});
 		res.send(repl);
 	}

@@ -27,6 +27,7 @@ exports.getScraper = function(){
 					subject:$(".publicity .list-right h2").first().text(),
 					month:$(".publicity .list-left2").first().text(),
 					day:$(".publicity .list-left1").first().text(),
+					url:$(".publicity a").first().prop("href"),
 					summary:$(".publicity ul li").first().text()
 				}
 			}; 
