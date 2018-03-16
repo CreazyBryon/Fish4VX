@@ -88,7 +88,7 @@ parseString(xml, function (err, result) {
  
 exports.msg = function(req, res){
 	
-	setTimeout(vxCache.scraper.run,1000);
+	setTimeout(vxCache.scraper.run,100);
 	vxCache.logs.push({'html':req.is('html'),'xml':req.is('xml'),'json':req.is('json')});
 	vxCache.recv.push({msgbody:req.body,msgQu:req.query});
 	
