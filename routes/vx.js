@@ -37,22 +37,24 @@ var handleText=function(msg){
 
 var handleMsg=function(msg){
 	var msgType=msg.msgtype;
-	
+	var resp={};
 	if(msgType=='text'){
-		handleText(msg);
+		resp=handleText(msg);
 	}else if(msgType=='image'){
-		handleText(msg);
+		resp=handleText(msg);
 	}else if(msgType=='voice'){
-		handleText(msg);
+		resp=handleText(msg);
 	}else if(msgType=='vedio'){
-		handleText(msg);
+		resp=handleText(msg);
 	}else if(msgType=='shortvedio'){
-		handleText(msg);
+		resp=handleText(msg);
 	}else if(msgType=='location'){
-		handleText(msg);
+		resp=handleText(msg);
 	}else if(msgType=='link'){
-		handleText(msg);
+		resp=handleText(msg);
 	}
+	
+	return resp;
 }
 
 
