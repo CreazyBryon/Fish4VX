@@ -4,25 +4,7 @@
  */ 
 var vxCache={recv:[],logs:[],resp:[]};
 
-var handleMsg=function(msg){
-	var msgType=msg.msgtype;
-	
-	if(msgType=='text'){
-		handleText(msg);
-	}else if(msgType=='image'){
-		handleText(msg);
-	}else if(msgType=='voice'){
-		handleText(msg);
-	}else if(msgType=='vedio'){
-		handleText(msg);
-	}else if(msgType=='shortvedio'){
-		handleText(msg);
-	}else if(msgType=='location'){
-		handleText(msg);
-	}else if(msgType=='link'){
-		handleText(msg);
-	}
-}
+
 
 var handleImage=function(msg){
 	
@@ -32,7 +14,7 @@ var handleText=function(msg){
 	var sender=msg.fromusername;
 	var meName=msg.tousername;
 	//var msgType=msg.msgtype;
-	var content=result.xml.content;
+	var content=msg.content;
 	var msgid=msg.msgid;	
 	
 	var replyC='';
@@ -53,6 +35,25 @@ var handleText=function(msg){
 	return repl;
 }
 
+var handleMsg=function(msg){
+	var msgType=msg.msgtype;
+	
+	if(msgType=='text'){
+		handleText(msg);
+	}else if(msgType=='image'){
+		handleText(msg);
+	}else if(msgType=='voice'){
+		handleText(msg);
+	}else if(msgType=='vedio'){
+		handleText(msg);
+	}else if(msgType=='shortvedio'){
+		handleText(msg);
+	}else if(msgType=='location'){
+		handleText(msg);
+	}else if(msgType=='link'){
+		handleText(msg);
+	}
+}
 
 
  
@@ -97,10 +98,8 @@ exports.msg = function(req, res){
 	if(!result){
 		res.send("success");
 	}else{ 
-	
-		var msg=result.xml;
-		
-		var repl = handleMsg(msg);
+	 
+		var repl = handleMsg(result.xml);
 		
 		vxCache.resp.push({msg:repl});
 		res.send(repl);
